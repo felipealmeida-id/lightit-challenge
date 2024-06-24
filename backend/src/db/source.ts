@@ -12,4 +12,5 @@ export const DbSource = new DataSource({
   port: env.DB_PORT,
   username: env.DB_USER,
   entities: [Patient, PlatformFile],
+  host: env.DB_HOST
 });

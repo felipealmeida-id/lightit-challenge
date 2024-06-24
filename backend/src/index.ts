@@ -6,6 +6,7 @@ import { patientRouter } from './api/routers';
 import { DbSource } from './db';
 
 (async () => {
+  console.log(env.DB_HOST)
   await DbSource.initialize();
   const logger = getLogger('ROOT');
   const app = express();
