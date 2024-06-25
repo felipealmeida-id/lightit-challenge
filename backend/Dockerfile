@@ -1,19 +1,23 @@
-# **** Stage 1 - Build ****
-FROM node:20-alpine as build
+FROM node:18-alpine
 WORKDIR /app
-RUN pnpm add -g nodemon
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-RUN pnpm i
 COPY . .
-RUN pnpm build
-
-# **** Stage 2 - Deploy ****
-FROM node:16-alpine
-WORKDIR /app
-COPY package.json .
-COPY pnpm-lock.yaml ./
-RUN pnpm i -P
-COPY --from=build /app/dist ./dist
+RUN pnpm i --production
+CMD ["node", "src/index.js"]
 EXPOSE 8080
-CMD ["/bin/sh", "-c", "pnpm run-migrations:dev;pnpm start"]
+
+# # **** Stage 1 - Build ****
+# FROM node:20-alpine as build
+# WORKDIR /app
+# RUN pnpm add -g nodemon
+# COPY package.json pnpm-lock.yaml ./
+# RUN pnpm install
+# COPY . .
+# RUN pnpm build
+
+# # **** Stage 2 - Deploy ****
+# FROM node:20-alpine
+# WORKDIR /app
+# COPY --from=build /app /app
+# RUN pnpm install --production
+# EXPOSE 8080
+# CMD ["sh", "-c", "pnpm run-migrations:dev && pnpm start"]

@@ -12,7 +12,7 @@ import { DbSource } from './db';
   const app = express();
   app.use(loggingMiddleware);
   app.get('/health', (_, res) => res.status(200).send());
-  app.use('/patient', patientRouter);
+  app.use('/patients', patientRouter);
   app.use('*', (_, res) => res.status(404).send({ error: 'Not Found' }));
   app.use(errorHandler);
   app.listen(env.PORT, () => logger.info(`Listening on ${env.PORT}`));
