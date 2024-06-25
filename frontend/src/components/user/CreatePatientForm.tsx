@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent, FunctionComponent } from 'react';
+import { patientApi } from '../../external_resources';
 
 interface PatientFormData {
     name: string;
@@ -25,11 +26,11 @@ const PatientForm: FunctionComponent = () => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        
+        await patientApi.createPatient(formData);
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div>
             <div>
                 <label>Name:</label>
                 <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -46,8 +47,8 @@ const PatientForm: FunctionComponent = () => {
                 <label>Document Photo:</label>
                 <input type="file" name="documentPhoto" onChange={handleChange} accept="image/*" required />
             </div>
-            <button type="submit">Create User</button>
-        </form>
+            <button type="submit" onClick={handleSubmit}>Create User</button>
+        </div>
     );
 };
 

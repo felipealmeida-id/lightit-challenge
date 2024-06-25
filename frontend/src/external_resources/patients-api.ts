@@ -6,17 +6,20 @@ class PatientApi {
     private logger = getLogger('PatientApi')
 
     private sendRequest = async <T>(method: HttpMethod, endpoint: string, data: JSONValue | FormData, config: AxiosRequestConfig): Promise<PatientApiResponse<T>> => {
+        const url = `${PATIENTS_API_HOST}/${endpoint}`
+        this.logger.info(`Calling ${url}`);
         try {
-            const url = `${PATIENTS_API_HOST}/${endpoint}`
             const response = await axios.request<T>({ url, method, data, headers: config.headers })
             return { success: true, data: response.data }
         } catch (err) {
+            console.log(err)
             this.logger.error(`Error calling ${endpoint}:`, err)
             return { success: false, error: err as PatientApiError }
         }
     }
 
     createPatient = async (patient: CreatePatient) => {
+        this.logger.info('A')
         const data = new FormData();
         data.append('name', patient.name);
         data.append('email', patient.email);
