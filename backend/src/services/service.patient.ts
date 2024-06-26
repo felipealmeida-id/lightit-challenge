@@ -15,7 +15,7 @@ class PatientService {
       );
       return dbPatient;
     });
-    return createdPatient;
+    return createdPatient[0];
   };
 }
 export const patientService = new PatientService();
