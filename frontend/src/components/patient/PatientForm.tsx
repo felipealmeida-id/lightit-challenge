@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import Dropzone from "react-dropzone";
 
 interface PatientFormProps {
-  addpatient: (patient: any) => void;
+  addpatient: (patient: any) => Promise<void>;
 }
 
 const patientForm: React.FC<PatientFormProps> = ({ addpatient }) => {
@@ -14,7 +14,7 @@ const patientForm: React.FC<PatientFormProps> = ({ addpatient }) => {
     initialValues: {
       name: "",
       email: "",
-      phoneNumber: "",
+      phone: "",
       photo: null,
     },
     validationSchema: Yup.object({
@@ -25,11 +25,13 @@ const patientForm: React.FC<PatientFormProps> = ({ addpatient }) => {
         .email()
         .matches(/@gmail\.com$/, "Email must be a @gmail.com")
         .required("Required"),
-      phoneNumber: Yup.string().required("Required"),
+      phone: Yup.string()
+        .matches(/^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/, 'Invalid phone number')
+        .required("Required"),
       photo: Yup.mixed().required("Required"),
     }),
-    onSubmit: (values) => {
-      addpatient(values);
+    onSubmit: async (values) => {
+      await addpatient(values);
       formik.resetForm();
     },
   });
@@ -59,13 +61,13 @@ const patientForm: React.FC<PatientFormProps> = ({ addpatient }) => {
       )}
       <input
         type="text"
-        name="phoneNumber"
+        name="phone"
         onChange={formik.handleChange}
-        value={formik.values.phoneNumber}
+        value={formik.values.phone}
         placeholder="Phone Number"
       />
-      {formik.errors.phoneNumber && formik.touched.phoneNumber && (
-        <div>{formik.errors.phoneNumber}</div>
+      {formik.errors.phone && formik.touched.phone && (
+        <div>{formik.errors.phone}</div>
       )}
 
       <Dropzone

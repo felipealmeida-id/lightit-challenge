@@ -12,7 +12,9 @@ const envSchema = z.object({
   DB_USER: z.string(),
   DB_PORT: z.coerce.number(),
   DB_DATABASE: z.string(),
-  DB_HOST:z.string()
+  DB_HOST:z.string(),
+  MAILTRAP_TOKEN:z.string(),
+  MAILTRAP_SENDER_EMAIL:z.string(),
 });
 export const env = (() => {
   dotEnv.config();

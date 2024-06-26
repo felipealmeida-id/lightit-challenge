@@ -1,6 +1,7 @@
 import { CreatePatientRequest } from '../api/parsers';
 import { BaseRepository, patientRepository, platformFileRepository } from '../db/repositories';
-import { CreatePlatformFile } from '../types';
+import { mailtrap } from '../external-resources';
+import { CreatePlatformFile, PATIENT_SIGNUP_SUBJECT } from '../types';
 
 class PatientService {
   createPatient = async (patient: CreatePatientRequest, documentPicture: CreatePlatformFile) => {
@@ -15,6 +16,7 @@ class PatientService {
       );
       return dbPatient;
     });
+    mailtrap.sendEmail(PATIENT_SIGNUP_SUBJECT, 'Welcome!', createdPatient[0].email).then(() => console.log('Email Sent'))
     return createdPatient[0];
   };
 }
