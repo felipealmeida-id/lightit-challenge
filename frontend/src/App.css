@@ -1,8 +1,4 @@
 /* App.css */
-.root {
-  display: flex;
-  align-items: center;
-}
 
 .user-card {
   border: 1px solid #ccc;

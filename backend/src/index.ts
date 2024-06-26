@@ -7,11 +7,11 @@ import { patientRouter } from './api/routers';
 import { DbSource } from './db';
 
 (async () => {
-  console.log(env.DB_HOST)
   await DbSource.initialize();
+  await DbSource.runMigrations();
   const logger = getLogger('ROOT');
   const app = express();
-  app.use(cors({origin:['http://localhost:5173']}))
+  app.use(cors({ origin: ['http://localhost:5173'] }));
   app.use(loggingMiddleware);
   app.get('/health', (_, res) => res.status(200).send());
   app.use('/patients', patientRouter);
